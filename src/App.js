@@ -18,6 +18,7 @@ const App = () => {
         <Route exact path='/project' element={<Project/>}/>
       </Routes>
     </Router>
+    <Footer/>
     </>
   )
 }
