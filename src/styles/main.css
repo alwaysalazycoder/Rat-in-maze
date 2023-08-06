@@ -8,7 +8,10 @@
   margin: 0;
   padding: 0;
 }
-
+.flex{
+  display: flex;
+  gap: 10px;
+}
 nav {
   position: relative;
   max-width: 100vw;
@@ -47,18 +50,20 @@ li:active {
 }
 
 .maze-wrapper {
-  min-height: 120vh;
+  /* min-height: 120vh; */
+  height: fit-content;
   width: 100%;
   background-color: lightgoldenrodyellow;
 }
 .main-maze {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   max-width: 100vw;
   align-items: center;
   justify-content: flex-start;
   padding-top: 50px;
   flex-direction: column;
+  padding-bottom: 30px;
 }
 .container {
   display: grid;
@@ -96,7 +101,7 @@ li:active {
 
 .project-detailing {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   max-width: 100vw;
   /* background-color: pink; */
 }
@@ -106,18 +111,25 @@ li:active {
   align-items: center;
   justify-content: flex-start;
   padding-top: 50px;
-  min-height: 70vw;
+  height: fit-content;
   min-width: 97vw;
-  background-color: white;
+  background-color: pink;
 }
 .objective,
 .project-context,
 .project-stages {
-  min-height: 40vh;
+  min-height: 20vh;
   width: 90vw;
   /* background-color: aqua; */
   display: flex;
   flex-direction: column;
+}
+.project-context{
+  min-height: 40vh;
+}
+.project-stages{
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 .objective {
   min-height: 20vh;
@@ -222,44 +234,67 @@ a {
   color: #fff;
 }
 
-
 /* footer */
-footer{
-    display: flex;
-    max-width: 100vw;
-    height: 7vh;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    background-color: goldenrod;
-
+footer {
+  display: flex;
+  max-width: 100vw;
+  height: 7vh;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  background-color: goldenrod;
 }
-footer>.div{
-    width: 20%;
-    /* background-color: red; */
-    font-size: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+footer > .div {
+  width: 20%;
+  /* background-color: red; */
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
-footer>svg{
-    font-size: 34px;
+footer > svg {
+  font-size: 34px;
 }
 
-
-@media screen and (max-width : 600px) {
-    
-  .button-55{
+@media screen and (max-width: 600px) {
+  .button-55 {
     position: absolute;
     right: 10px;
     top: 25%;
     /* width: 80px; */
   }
-  nav{
+  nav {
     padding-left: 60px;
   }
-  footer>.div{
+  footer > .div {
     width: 35%;
     font-size: 25px;
   }
+}
+.ansPath {
+  background-color: lightyellow;
+  color: black;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border-bottom: solid rgb(230, 230, 119);
+  cursor: pointer;
+  min-width: 200px;
+}
+.ansPath:hover {
+  border: solid rgb(248, 248, 129);
+}
+
+.ansPathContainer {
+  /* background-color: red; */
+  margin-top: 30px;
+  justify-content: center;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 70%;
+  justify-items: safe;
+}
+.bold {
+  font-weight: bolder;
 }

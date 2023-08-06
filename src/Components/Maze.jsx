@@ -1,6 +1,11 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-
+import {
+  BsArrowDown,
+  BsArrowLeft,
+  BsArrowRight,
+  BsArrowUp,
+} from "react-icons/bs";
 const Maze = () => {
   let temp; // used for render mapping the grid..
   let maze;
@@ -14,6 +19,63 @@ const Maze = () => {
   const [oned, setOned] = useState([
     1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1,
   ]);
+
+  const [myMatrix, setMyMatrix] = useState("");
+
+  useEffect(() => {
+    let renderList = oned?.map((item, index) =>
+      index == 0 ? (
+        <div className="grid-item" key={index}>
+          🐁
+        </div>
+      ) : index == 15 ? (
+        <div className="grid-item" key={index}>
+          🧀
+        </div>
+      ) : (
+        <div className="grid-item" key={index}>
+          <button
+            className="clickable"
+            onClick={() => {
+              ClickHandler(index);
+            }}
+          >
+            {item == 0 ? "🧱" : ""}
+          </button>
+        </div>
+      )
+    );
+
+    setMyMatrix(renderList);
+  }, []);
+
+  useEffect(() => {
+    let renderList = oned?.map((item, index) =>
+      index == 0 ? (
+        <div className="grid-item" key={index}>
+          🐁
+        </div>
+      ) : index == 15 ? (
+        <div className="grid-item" key={index}>
+          🧀
+        </div>
+      ) : (
+        <div className="grid-item" key={index}>
+          <button
+            className="clickable"
+            onClick={() => {
+              ClickHandler(index);
+            }}
+          >
+            {item == 0 ? "🧱" : ""}
+          </button>
+        </div>
+      )
+    );
+
+    setMyMatrix(renderList);
+  }, [oned]);
+  const [ansArr, setAnsArr] = useState([]);
 
   const ClickHandler = (key) => {
     temp = [...oned];
@@ -37,7 +99,6 @@ const Maze = () => {
     }
 
     maze = [...newArr]; // copying 2d array to maze;
-    // console.log(maze);
 
     let visited = [
       // visited array for backtracking...
@@ -82,8 +143,6 @@ const Maze = () => {
 
     mazeSolver(0, 0, 3, ""); // calling the function for 4*4 matrix..
 
-    console.log(ansString);
-
     let redLabelStringArray = ansString.split(" "); // spliting the answers
 
     redLabelStringArray.map((item, index) => {
@@ -103,7 +162,7 @@ const Maze = () => {
         if (item == "U") {
           count -= 4;
         }
-        tempArr.push(count);
+        tempArr.push({ item: item, count: count });
       });
 
       count = 0;
@@ -112,68 +171,118 @@ const Maze = () => {
       tempArr = [];
     });
 
+    setAnsArr(twoD);
     console.log(twoD);
   };
 
-  // rendering the grid to make changes in the obstacles...
-  let renderList = oned?.map((item, index) =>
-    index == 0 ? (
-      <div className="grid-item" key={index}>
-        🐁
-      </div>
-    ) : index == 15 ? (
-      <div className="grid-item" key={index}>
-        🧀
-      </div>
-    ) : (
-      <div className="grid-item" key={index}>
-        <button
-          className="clickable"
-          onClick={() => {
-            ClickHandler(index);
-          }}
-        >
-          {item == 0 ? "🧱" : ""}
-        </button>
-      </div>
-    )
-  );
+  // // rendering the grid to make changes in the obstacles...
+  // let renderList = oned?.map((item, index) =>
+  //   index == 0 ? (
+  //     <div className="grid-item" key={index}>
+  //       🐁
+  //     </div>
+  //   ) : index == 15 ? (
+  //     <div className="grid-item" key={index}>
+  //       🧀
+  //     </div>
+  //   ) : (
+  //     <div className="grid-item" key={index}>
+  //       <button
+  //         className="clickable"
+  //         onClick={() => {
+  //           ClickHandler(index);
+  //         }}
+  //       >
+  //         {item == 0 ? "🧱" : ""}
+  //       </button>
+  //     </div>
+  //   )
+  // );
+
+  const handleShowPath = (arr) => {
+    console.log(arr);
+
+    let renderList = oned?.map((item, index) =>
+      index == 0 ? (
+        <div className="grid-item" key={index}>
+          🐁
+        </div>
+      ) : index == 15 ? (
+        <div className="grid-item" key={index}>
+          🧀
+        </div>
+      ) : arr.find((obj) => obj.count === index) ? (
+        <div className="grid-item" key={index}>
+          <button
+            className="clickable"
+            onClick={() => {
+              ClickHandler(index);
+            }}
+          >
+            {arr.find(({ count }) => count === index).item === "D" ? (
+              <BsArrowDown />
+            ) : arr.find(({ count }) => count === index).item === "U" ? (
+              <BsArrowUp />
+            ) : arr.find(({ count }) => count === index).item === "R" ? (
+              <BsArrowRight />
+            ) : arr.find(({ count }) => count === index).item === "L" ? (
+              <BsArrowLeft />
+            ) : (
+              ""
+            )}
+          </button>
+        </div>
+      ) : (
+        <div className="grid-item" key={index}>
+          <button
+            className="clickable"
+            onClick={() => {
+              ClickHandler(index);
+            }}
+          >
+            {item == 0 ? "🧱" : ""}
+          </button>
+        </div>
+      )
+    );
+
+    setMyMatrix(renderList);
+  };
 
   return (
     <div className="maze-wrapper">
       <div className="main-maze">
-        <div className="container">{renderList}</div>
+        {/* <div className="container">{renderList}</div> */}
+        <div className="container">{myMatrix}</div>
         <div className="submit-btn">
           <button className="button-89" role="button" onClick={arrayHandler}>
             {" "}
             Get Paths..
           </button>
         </div>
-        <div className="number-of-paths">The total number of paths are :</div>
+        <div className="number-of-paths flex">
+          The total number of paths are :{" "}
+          <div className="bold">{ansArr.length }</div>
+        </div>
 
-        <Answers pathsInGrid={twoD} maze={oned} />
+        <div className="ansPathContainer">
+          {ansArr.map((item, index) =>
+            index != ansArr.length-1 ? (
+              <div>
+                <button
+                  className="ansPath"
+                  onClick={() => handleShowPath(item)}
+                >
+                  Show path : {index + 1}
+                </button>
+              </div>
+            ) : (
+              ""
+            )
+          )}
+        </div>
       </div>
     </div>
-  );
-};
-
-const Answers = (props) => {
-  let { pathsInGrid, maze } = props;
-  let tempMaze = [...maze];
-  let answerList;
-
-  return (
-    <>
-      <div className="data">
-        <p>Hello answers</p>
-        <p>{pathsInGrid.length} length</p>
-        {pathsInGrid.map((i, index) => (
-          <div className="data" key={index}>
-            <p> {index} answer</p>
-          </div>
-        ))}
-      </div>
-    </>
   );
 };
 
